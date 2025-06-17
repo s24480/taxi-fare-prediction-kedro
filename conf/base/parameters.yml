@@ -1,0 +1,2 @@
+taxi_fare_predictor: data/06_models/taxi_fare_predictor
+taxi_fare_predictor_zip: data/06_models/taxi_fare_predictor_packed.zip
