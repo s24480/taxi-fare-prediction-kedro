@@ -27,5 +27,5 @@ def _sample_dataset(df: pd.DataFrame, sample_fraction: float = 0.05) -> pd.DataF
 
 def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
     df_clean = _clean_dataset(df)
-    df_sampled = _sample_dataset(df_clean, sample_fraction=0.05)
+    df_sampled = _sample_dataset(df_clean, sample_fraction=1)
     return df_sampled

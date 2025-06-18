@@ -13,14 +13,14 @@ def train_model(df: pd.DataFrame, model_save_dir: str):
 
     train_data = TabularDataset(train)
 
-    predictor = TabularPredictor(label='fare_amount', path=model_save_dir).fit(train_data=train_data, test_data=test)
+    predictor = TabularPredictor(label='fare_amount', path=model_save_dir).fit(train_data=train_data, test_data=test, presets='high_quality')
     predictor.clone_for_deployment(path=model_save_dir + "-deploy", dirs_exist_ok=True)
     predictions = predictor.predict(test)
 
     return predictions
 
 
-def upload_model_to_az(connection_string: str, zip_path: str):
+def _upload_model_to_az(connection_string: str, zip_path: str):
     blob_service_client = BlobServiceClient.from_connection_string(connection_string)
     blob_client = blob_service_client.get_blob_client(container="asi-model", blob="taxi_fare_predictor.zip")
 
@@ -39,4 +39,4 @@ def upload_model(taxi_fare_predictor: str, taxi_fare_predictor_zip: str):
                 arcname = os.path.relpath(file_path, start=taxi_fare_predictor + "-deploy")
                 zipf.write(file_path, arcname)
 
-    upload_model_to_az(os.getenv("BLOB_CONNECTION_STRING"), taxi_fare_predictor_zip)
+    _upload_model_to_az(os.getenv("BLOB_CONNECTION_STRING"), taxi_fare_predictor_zip)

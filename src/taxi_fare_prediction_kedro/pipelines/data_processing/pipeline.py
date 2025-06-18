@@ -11,7 +11,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=prepare_data,
                 inputs="taxi_ds",
-                outputs=[],
+                outputs="taxi_ds_cleaned",
                 name="prepare_taxi_ds",
             )
         ]
