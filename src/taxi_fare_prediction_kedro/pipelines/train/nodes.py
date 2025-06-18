@@ -13,11 +13,28 @@ def train_model(df: pd.DataFrame, model_save_dir: str):
 
     train_data = TabularDataset(train)
 
-    predictor = TabularPredictor(label='fare_amount', path=model_save_dir).fit(train_data=train_data, test_data=test, presets='high_quality')
+    predictor = TabularPredictor(label='fare_amount', path=model_save_dir).fit(train_data=train_data, test_data=test,
+                                                                               time_limit=600)
     predictor.clone_for_deployment(path=model_save_dir + "-deploy", dirs_exist_ok=True)
     predictions = predictor.predict(test)
+    evaluation = predictor.evaluate(test)
+    leaderboard = predictor.leaderboard(test)
+    feature_importance = predictor.feature_importance(test)
+    best_model = predictor.model_best
 
-    return predictions
+    return predictions, f"""
+        Evaluation:
+        {evaluation}
+        
+        Leaderboard:
+        {leaderboard}
+        
+        Feature Importance:
+        {feature_importance}
+        
+        Best Model:
+        {best_model}
+    """
 
 
 def _upload_model_to_az(connection_string: str, zip_path: str):

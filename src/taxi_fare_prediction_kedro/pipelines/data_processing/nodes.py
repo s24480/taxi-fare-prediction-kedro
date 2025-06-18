@@ -14,6 +14,16 @@ def _remove_outliers(df: pd.DataFrame, column: str, method: str = 'iqr', factor:
     return df
 
 
+def _change_units(df: pd.DataFrame) -> pd.DataFrame:
+    MILE_TO_KM = 1.60934
+    USD_TO_PLN = 4.00
+
+    df['trip_distance'] = df['trip_distance'] * MILE_TO_KM
+    df['fare_amount'] = df['fare_amount'] * USD_TO_PLN
+
+    return df
+
+
 def _clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
     columns_to_clean = ["trip_distance", "fare_amount", "duration"]
     for col in columns_to_clean:
@@ -26,6 +36,7 @@ def _sample_dataset(df: pd.DataFrame, sample_fraction: float = 0.05) -> pd.DataF
 
 
 def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
-    df_clean = _clean_dataset(df)
+    df_changed_units = _change_units(df)
+    df_clean = _clean_dataset(df_changed_units)
     df_sampled = _sample_dataset(df_clean, sample_fraction=1)
     return df_sampled

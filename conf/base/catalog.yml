@@ -48,3 +48,6 @@ taxi_ds_cleaned:
 taxi_fare_predictions:
   type: pandas.CSVDataset
   filepath: data/08_reporting/taxi_fare_predictions.csv
+taxi_fare_predictions_evaluation:
+  type: text.TextDataset
+  filepath: data/08_reporting/taxi_fare_predictions_evaluation.txt

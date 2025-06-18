@@ -9,7 +9,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=train_model,
                 inputs=["taxi_ds_cleaned", "params:taxi_fare_predictor"],
-                outputs="taxi_fare_predictions",
+                outputs=["taxi_fare_predictions", "taxi_fare_predictions_evaluation"],
                 name="train_taxi_ds_predictor",
             ),
             node(
